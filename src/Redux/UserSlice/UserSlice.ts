@@ -1,5 +1,4 @@
 import {
-  // AnyAction,
   createAsyncThunk,
   createSlice,
   PayloadAction,
@@ -16,6 +15,17 @@ export type IproductItemsProps ={
   price: number;
   
 }
+export type DetailsProps ={
+  _id: string;
+  name: string;
+  avatar: string;
+  category: string;
+  description: string;
+  developerEmail: string;
+  price: number;
+  
+}
+
 export type ICategoryProps ={
   _id: string;
   name: string;
@@ -28,9 +38,18 @@ type InitialState ={
   status:string
   products:IproductItemsProps[];
   category:ICategoryProps[];
-  details:IproductItemsProps[];
+  details:DetailsProps
   favourites:IproductItemsProps[];
 }
+
+export type IFormInput={ 
+  name:string, 
+  price:number, 
+  description:string, 
+  category:string, 
+  developerEmail:string, 
+  avatar:string 
+} 
 export const Statues = Object.freeze({
   IDEL: "ok",
   ERROR: "error",
@@ -41,7 +60,15 @@ const initialState : InitialState= {
   status: "ok", 
   products:[],
   category:[],
-  details:[],
+  details:{
+  _id: "",
+  name: "",
+  avatar: "",
+  category: "",
+  description: "",
+  developerEmail: "",
+  price: 0
+  },
   favourites:JSON.parse(`${localStorage.getItem("Favourite")}`)||[]
 }
 
@@ -83,7 +110,7 @@ const productSlice = createSlice({
       .addCase(fetchDetails.pending, (state, action) => {
         state.status = Statues.LOADING;
       })
-      .addCase(fetchDetails.fulfilled, (state, action: PayloadAction<IproductItemsProps[]>) => {
+      .addCase(fetchDetails.fulfilled, (state, action: PayloadAction<DetailsProps>) => {
         state.details=action.payload;
         state.status = Statues.IDEL;
       })
@@ -104,7 +131,6 @@ export const fetchProduct = createAsyncThunk("product/fetch",() => {
   return axios
     .get("https://upayments-studycase-api.herokuapp.com/api/products", config)
     .then((res) => {
-      console.log(res.data);
       return res.data.products;
     });
 });
@@ -134,6 +160,24 @@ export const fetchProduct = createAsyncThunk("product/fetch",() => {
       const res = await axios
         .get(`https://upayments-studycase-api.herokuapp.com/api/products/${id}`, config);
       return res.data.product
+      ;
+    });
+    export const CreateProduct = createAsyncThunk("product/Post",async(payload:IFormInput) => { 
+      let body=JSON.stringify(payload)
+      let config = {
+        headers: {
+          "Content-Type":"application/json",
+          Authorization:
+            "Bearer " +
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRhbm1veW1vbmRhbDE3ZUBnbWFpbC5jb20iLCJnaXRodWIiOiJodHRwczovL2dpdGh1Yi5jb20vVGFubW95LU0xNyIsImlhdCI6MTY2NDAwNzUzMywiZXhwIjoxNjY0NDM5NTMzfQ.aNS83Mrugnsqlg_8fav_BphDUyHnykZXV8Yr3fiYOJY",
+        },
+      };
+     
+      const res = await axios
+        .post(`https://upayments-studycase-api.herokuapp.com/api/products`,body,config);
+        console.log(res.data)
+        return res.data.product
+    
       ;
     });
    export const {removeProduct , addTofavoutite} =productSlice.actions;
