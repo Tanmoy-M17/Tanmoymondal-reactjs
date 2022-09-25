@@ -7,15 +7,15 @@ import {
 import axios from "axios";
 
 export type IproductItemsProps ={
+  _id: string;
+  name: string;
   avatar: string;
   category: string;
   description: string;
   developerEmail: string;
-  name: string;
   price: number;
-  _id: string;
+  
 }
-
 export type ICategoryProps ={
   _id: string;
   name: string;
@@ -29,23 +29,34 @@ type InitialState ={
   products:IproductItemsProps[];
   category:ICategoryProps[];
   details:IproductItemsProps[];
+  favourites:IproductItemsProps[];
 }
 export const Statues = Object.freeze({
   IDEL: "ok",
   ERROR: "error",
   LOADING: "loading",
 });
+
 const initialState : InitialState= {
   status: "ok", 
   products:[],
   category:[],
-  details:[]
+  details:[],
+  favourites:JSON.parse(`${localStorage.getItem("Favourite")}`)||[]
 }
 
 const productSlice = createSlice({
   name: "product",
   initialState,
-  reducers: {},
+  reducers: {
+    addTofavoutite: (state, action: PayloadAction<IproductItemsProps>) => {
+      state.favourites.push(action.payload);
+      localStorage.setItem("Favourite",JSON.stringify(state.favourites))
+    },
+    removeProduct: (state, action: PayloadAction<string>) => {
+      state.products = state.products.filter(({ _id }) => _id !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProduct.pending, (state, action) => {
@@ -78,7 +89,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchDetails.rejected, (state, action) => {
         state.status = Statues.ERROR ;
-      });
+      })
   },
 });
 
@@ -109,7 +120,6 @@ export const fetchProduct = createAsyncThunk("product/fetch",() => {
       return axios
         .get("https://upayments-studycase-api.herokuapp.com/api/categories",config)
         .then((res) => {
-          console.log(res.data);
           return res.data.categories;
       });
     });
@@ -123,8 +133,8 @@ export const fetchProduct = createAsyncThunk("product/fetch",() => {
       };
       const res = await axios
         .get(`https://upayments-studycase-api.herokuapp.com/api/products/${id}`, config);
-      console.log("Details", res.data);
       return res.data.product
       ;
     });
+   export const {removeProduct , addTofavoutite} =productSlice.actions;
 export default productSlice.reducer
