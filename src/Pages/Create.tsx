@@ -6,7 +6,7 @@ import { CreateProduct, IFormInput } from "../Redux/UserSlice/UserSlice";
 const Create = () => { 
   const {register,handleSubmit}=useForm<IFormInput>(); 
   const dispach=useAppDispatch()
-  const [json, setJson] = useState<IFormInput>({ 
+  const [Form, setForm] = useState<IFormInput>({ 
   "name":"", 
   "price":0, 
   "description":"", 
@@ -16,16 +16,15 @@ const Create = () => {
 }); 
  
   const onSubmit = (data: IFormInput) => { 
-    setJson(data); 
+    setForm(data); 
     dispach(CreateProduct(data))
   }; 
  
   return ( 
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center"> 
       <div className="max-w-md w-full mx-auto"> 
-        <div className="text-center font-medium text-xl">something</div> 
         <div className="text-3xl font-bold text-gray-900 mt-2 text-center"> 
-          Anathor 
+        Create Product 
         </div> 
       </div> 
        
@@ -42,7 +41,8 @@ const Create = () => {
             <input 
             {...register("price")} 
              type="number"  
-             name="price" required/> 
+             name="price" required 
+             className="w-full p-2 border border-gray-300"/> 
             </div> 
             <div> 
                 <label htmlFor="" className=" skew-y-6">Category</label> 
@@ -61,20 +61,23 @@ const Create = () => {
                 <label htmlFor="" className=" skew-y-6">Description</label> 
             <input type="text"  
              {...register("description")} 
-             name="description" required /> 
+             name="description" required
+             className="w-full p-2 border border-gray-300" /> 
             </div> 
             <div> 
                 <label htmlFor="" className=" skew-y-6">Avatar</label> 
             <input type="text"  
             {...register("avatar")} 
-             name="avatar" required /> 
+             name="avatar" required 
+             className="w-full p-2 border border-gray-300" /> 
             </div> 
             <div> 
                 <label htmlFor="" className=" skew-y-6">Devoloper</label> 
             <input type="text" 
-            value={json.developerEmail}
+            value={Form.developerEmail}
            {...register("developerEmail")} 
-             name="developerEmail" required /> 
+             name="developerEmail" required className="w-full p-2 border border-gray-300"
+             /> 
             </div> 
             <div> 
                 <button className=" w-full py-2  px-4 bg-blue-600 hover:bg-blue-700 text-white">Submit</button> 
