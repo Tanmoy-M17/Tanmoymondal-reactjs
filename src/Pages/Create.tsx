@@ -1,9 +1,11 @@
 import React, { useState } from "react"; 
 import { useForm } from "react-hook-form"; 
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../Redux/App/hooks";
 import { CreateProduct, IFormInput } from "../Redux/UserSlice/UserSlice";
  
 const Create = () => { 
+  const navigate=useNavigate();
   const {register,handleSubmit}=useForm<IFormInput>(); 
   const dispach=useAppDispatch()
   const [Form, setForm] = useState<IFormInput>({ 
@@ -85,6 +87,8 @@ const Create = () => {
             </div> 
         </form> 
       </div> 
+      <button className="bg-transparent hover:bg-green-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" 
+            onClick={()=>navigate("/")}>&laquo; Back To Home</button>
     </div> 
   ); 
 }; 
