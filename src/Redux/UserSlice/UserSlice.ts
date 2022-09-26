@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
 export type IproductItemsProps ={
   _id: string;
   name: string;
@@ -77,11 +78,24 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     addTofavoutite: (state, action: PayloadAction<IproductItemsProps>) => {
+     const id= state.favourites.find((e:IproductItemsProps)=>action.payload._id===e._id);
+     if (id){
+      return alert("Alredy In favourite")
+     }
+     else{
       state.favourites.push(action.payload);
+      localStorage.setItem("Favourite",JSON.stringify(state.favourites))
+      return alert("Favourit Added")
+     }  
+    },
+    removeFavorite: (state, action: PayloadAction<string>) => {
+      state.favourites= state.favourites.filter(({ _id }) => _id !== action.payload);
       localStorage.setItem("Favourite",JSON.stringify(state.favourites))
     },
     removeProduct: (state, action: PayloadAction<string>) => {
+       alert("Are You Sure To Delete This product??")
       state.products = state.products.filter(({ _id }) => _id !== action.payload);
+
     },
   },
   extraReducers: (builder) => {
@@ -180,5 +194,5 @@ export const fetchProduct = createAsyncThunk("product/fetch",() => {
     
       ;
     });
-   export const {removeProduct , addTofavoutite} =productSlice.actions;
+   export const {removeProduct , addTofavoutite , removeFavorite} =productSlice.actions;
 export default productSlice.reducer
