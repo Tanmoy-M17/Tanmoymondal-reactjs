@@ -89,12 +89,12 @@ const productSlice = createSlice({
      }  
     },
     removeFavorite: (state, action: PayloadAction<IproductItemsProps["_id"]>) => {
-      alert("Are you sure to delete this product from Favourite??")
+      alert("Product Deleted")
       state.favourites= state.favourites.filter(({ _id }) => _id !== action.payload);
       localStorage.setItem("Favourite",JSON.stringify(state.favourites))
     },
     removeProduct: (state, action: PayloadAction<string>) => {
-       alert("Are You Sure To Delete This product??")
+       alert("Product Deleted")
       state.products = state.products.filter(({ _id }) => _id !== action.payload);
 
     },
