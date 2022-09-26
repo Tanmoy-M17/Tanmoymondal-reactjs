@@ -4,6 +4,7 @@ import { useAppSelector } from '../Redux/App/hooks'
 import { ICategoryProps } from "../Redux/UserSlice/UserSlice";
 const Category = () => {
     const categories=useAppSelector(state=>state.app.category);
+    const favoutite=useAppSelector(state=>state.app.favourites);
   return (<div>
     <nav className="bg-white shadow-lg">
 			<div className="max-w-6xl mx-auto px-4 flex justify-between">
@@ -19,13 +20,14 @@ const Category = () => {
         <Link to={`/`} 
           className="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold"> All </Link>
           {categories.length>0&&categories.map((e:ICategoryProps)=> <Link to={`/category/${e.name}`} 
+          key={e._id}
           className="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold">
           {e.name}
           </Link>)}
 					</div>
           <div className="flex justify-between space-x-7">
           <button className="bg-black h-12 mt-1.5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"><Link to={"/create"}>Create</Link></button>
-          <button className="bg-blue-500 h-12 mt-1.5 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"><Link to={"/favorite"}>Favourites</Link></button>
+          <button className="bg-blue-500 h-12 mt-1.5 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"><Link to={"/favorite"}>Favourites({favoutite.length})</Link></button>
           </div>
       </div>
       </nav>

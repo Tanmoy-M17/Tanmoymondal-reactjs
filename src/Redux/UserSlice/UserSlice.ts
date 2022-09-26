@@ -88,7 +88,8 @@ const productSlice = createSlice({
       return alert("Favourit Added")
      }  
     },
-    removeFavorite: (state, action: PayloadAction<string>) => {
+    removeFavorite: (state, action: PayloadAction<IproductItemsProps["_id"]>) => {
+      alert("Are you sure to delete this product from Favourite??")
       state.favourites= state.favourites.filter(({ _id }) => _id !== action.payload);
       localStorage.setItem("Favourite",JSON.stringify(state.favourites))
     },
@@ -190,8 +191,7 @@ export const fetchProduct = createAsyncThunk("product/fetch",() => {
       const res = await axios
         .post(`https://upayments-studycase-api.herokuapp.com/api/products`,body,config);
         console.log(res.data)
-        return res.data.product
-    
+        return alert(res.data.message)
       ;
     });
    export const {removeProduct , addTofavoutite , removeFavorite} =productSlice.actions;

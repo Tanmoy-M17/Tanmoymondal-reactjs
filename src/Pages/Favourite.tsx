@@ -22,7 +22,7 @@ const Favourite = () => {
           </Link>
           <div className="px-6 pt-4 pb-2 flex justify-between space-x-7">
             <button className="bg-transparent m-auto hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-            onClick={()=>{dispacth(removeFavorite(`${e._id}`))}}>Remove From Favourite</button>         
+            onClick={()=>{dispacth(removeFavorite(e._id))}}>Remove From Favourite</button>         
             </div>
       </div>
   })}

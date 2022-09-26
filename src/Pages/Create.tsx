@@ -41,7 +41,8 @@ const Create = () => {
             <input 
             {...register("price")} 
              type="number"  
-             name="price" required 
+             name="price" 
+             required 
              className="w-full p-2 border border-gray-300"/> 
             </div> 
             <div> 
@@ -49,7 +50,7 @@ const Create = () => {
             <select  
             {...register("category")} 
              name="category" id="" className=" w-full p-2 bg-gray-300 rounded mt-1"> 
-                {/* <option value="">Select product Category</option> */}
+                <option value="">Select product Category</option>
                 <option value="Electronics">Electronics</option> 
                 <option value="Clothing">Clothing</option> 
                 <option value="Accessories">Accessories</option> 
